@@ -172,5 +172,4 @@ function Piano({ synth, setSynth }: InstrumentProps): JSX.Element {
     </div>
   );
 }
-
 export const PianoInstrument = new Instrument('Piano', Piano);
