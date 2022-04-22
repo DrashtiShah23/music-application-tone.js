@@ -76,7 +76,18 @@ function Harp({synth, setSynth}: InstrumentProps): JSX.Element {
     { note: 'A', idx: 5 },
     { note: 'B', idx: 6 },
   ]);
+  
+/*
+  const setOscillator = (newType: Tone.ToneOscillatorType) => {
+    setSynth(oldSynth => {
+      oldSynth.disconnect();
 
+      return new Tone.Synth({
+        oscillator: { type: newType } as Tone.OmniOscillatorOptions,
+      }).toDestination();
+    });
+  };
+*/
   const setOscillator = () => {
     setSynth(oldSynth => {
       oldSynth.disconnect();
