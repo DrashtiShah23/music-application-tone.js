@@ -45,7 +45,7 @@ export const DrashtiShah23Visualizer = new Visualizer(
     }
 
     //incrementing the variable every frame
-    start += 0.01;
+    start += 0.05;
     p5.endShape();
 
   },
