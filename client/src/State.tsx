@@ -8,7 +8,7 @@ import {TromboneInstrument} from './instruments/trombone';
 import { WaveformVisualizer } from './visualizers/Waveform';
 import { FlowerVisualizer } from './visualizers/WilliamZ';
 import { ClarinetInstrument} from './instruments/swethac1130'
-import { OvalVisualizer  } from './visualizers/swethac1130';
+import { SemiCircleVisualizer  } from './visualizers/swethac1130';
 import {DrashtiShah23Visualizer} from './visualizers/DrashtiShah23'
 
 import { HarpInstrument  } from './instruments/Bsandhu97';
@@ -28,7 +28,7 @@ const instruments = List([PianoInstrument,GuitarInstrument, ClarinetInstrument, 
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer, FlowerVisualizer, OvalVisualizer, DrashtiShah23Visualizer, MosaicVisualizer]);    // similar to Visualizer[]
+const visualizers = List([WaveformVisualizer, FlowerVisualizer, SemiCircleVisualizer, DrashtiShah23Visualizer, MosaicVisualizer]);    // similar to Visualizer[]
 
 
 /**

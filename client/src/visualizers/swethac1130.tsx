@@ -6,8 +6,8 @@ import * as Tone from 'tone';
 import { Visualizer } from '../Visualizers';
 
 
-export const OvalVisualizer = new Visualizer(
-    'OvalVisualizer',
+export const SemiCircleVisualizer = new Visualizer(
+    'Semi-Circle Visualizer',
     (p5: P5, analyzer: Tone.Analyser) => {
         p5.angleMode(p5.DEGREES)
         const width = window.innerWidth;
