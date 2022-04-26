@@ -5,32 +5,33 @@ import * as Tone from 'tone';
 // project imports
 import { Visualizer } from '../Visualizers';
 
-let diameter = 0;
 
-export const OvalVisualizer = new Visualizer(
-    'OvalVisualizer',
+export const SemiCircleVisualizer = new Visualizer(
+    'Semi-Circle Visualizer',
     (p5: P5, analyzer: Tone.Analyser) => {
-        const width = 150;
-        const height = 150;
-        const colors = ['#fff700', '#4000ff', '#00ff08', '#ff0000'];
-        p5.background(0, 0, 0, 255);
-        const color = colors[Math.floor(Math.random() * (colors.length + 1))];
-        p5.stroke(String(color));
+        p5.angleMode(p5.DEGREES)
+        const width = window.innerWidth;
+        const height = window.innerHeight / 2;
+        p5.background(10, 10, 25);
+        p5.stroke(255)
 
-        const analyzerValues = analyzer.getValue();
+        p5.translate(width/3, height/3)
+        const analyzerValues = analyzer.getValue()
+        let space = 1
 
-        p5.beginShape();
-        for (let i = 0; i < Math.min(analyzerValues.length, 255) ; i++) {
-            const amplitude = analyzerValues[i] as number;
-            const angle = 361
-            const horizontalPosition = (width*-5) - width / 2 * p5.cos(2 * Math.PI * amplitude + angle);
-            const verticalPosition = (height*-0.5) - height / 2 * p5.sin(2 * Math.PI * -1 * amplitude + angle);
-            diameter += amplitude
-            p5.circle(horizontalPosition + 11 * 115, verticalPosition + 250  , diameter); 
+        p5.beginShape()
+        for (let i = 0; i < 180; i += space) {
+            let xoff = p5.map(p5.cos(i), -1,1,0,3)
+            let yoff = p5.map(p5.sin(i), -1,1,0,3)
+            let n = p5.noise(xoff, yoff + (analyzerValues[i] as unknown as number))
+            let height = p5.map(n, 0,1,-150,150 + (analyzerValues[i] as unknown as number))
+            p5.rotate(space)
+            p5.rect(200, 0, height, 1)
+            const colors = ['#fff700', '#4000ff', '#00ff08', '#ff0000'];
+            const color = colors[Math.floor(Math.random() * (colors.length + 1))];
+            p5.stroke(String(color));
         }
-        p5.endShape(); 
-        diameter = 0;
-    
+        p5.endShape()
+        
     },
 );
-
