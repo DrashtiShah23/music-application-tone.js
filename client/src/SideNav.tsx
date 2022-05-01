@@ -97,7 +97,7 @@ function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
  return (
    <Section title="Jukebox">
     <div>
-    <form onSubmit={handleSubmit}  action="submitscript.php" target="dummyframe">
+    <form onSubmit={handleSubmit}>
       <input type='text' id='songName' name='songName' placeholder="Enter song name..." autoComplete="off"
                value={songName} onChange={(e) => setSongTitle(e.target.value)}
       />
