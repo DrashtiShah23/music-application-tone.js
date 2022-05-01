@@ -1,7 +1,7 @@
 // 3rd party library imports
 import classNames from 'classnames';
 import { List } from 'immutable';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import {
  RadioButton20,
@@ -94,9 +94,6 @@ function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
     );
    return filteredSongs
   }
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
  return (
    <Section title="Jukebox">
     <div>
