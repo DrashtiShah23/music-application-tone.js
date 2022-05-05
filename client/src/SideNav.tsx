@@ -71,22 +71,20 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
 
 function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
   const [songName, setSongTitle] = useState('');
-  let [filteredSongs, setSongs] = useState(["Empty"]);
+  let filteredSongs: List<any> 
   const handleSubmit = (e: React.ChangeEvent<any>) => {
-    e.preventDefault();
+    // e.preventDefault();
     const res = fetchData();
-    alert("Data from server "+res)
-    alert("After")    
+    // alert("Data from server "+res)
   };
   async function fetchData() {
-    alert("Fetch")
+    // alert("Fetch")
     initializeSocket(
       async socket => {
         dispatch(new DispatchAction('SET_SOCKET', { socket }));
         filteredSongs = await send(socket, 'get_songs_by_name', {"song_title": songName});
-        dispatch(new DispatchAction('SET_SONGS', { filteredSongs }));
-        alert("DONE")
-        alert("Songs "+setSongs(filteredSongs))
+        dispatch(new DispatchAction('SET_FILTERED_SONGS', { filteredSongs }));
+        // alert("DONE" +filteredSongs)
       },
       () => {
         dispatch(new DispatchAction('DELETE_SOCKET'));
@@ -102,6 +100,7 @@ function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
                value={songName} onChange={(e) => setSongTitle(e.target.value)}
       />
     </form>
+    
     </div>
    </Section>
  );

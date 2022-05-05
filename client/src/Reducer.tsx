@@ -34,6 +34,7 @@ type DispatchActionType =
   | 'SET_SOCKET'
   | 'DELETE_SOCKET'
   | 'SET_SONGS'
+  | 'SET_FILTERED_SONGS'
   | 'PLAY_SONG'
   | 'STOP_SONG'
   | 'SET_LOCATION';
@@ -68,10 +69,17 @@ export function appReducer(state: AppState, action: DispatchAction): AppState {
 
         return state.set('socket', args.get('socket'));
       }
+      case 'SET_FILTERED_SONGS': {
+        // alert("Inside SET_FILTERED_SONGS "+args)
+        const songs = args.get('songs');
+        alert("State for SET_FILTERED_SONGS"+state)
+        return state.set('filteredsongs', songs)
+      }
       case 'DELETE_SOCKET': {
         return state.delete('socket');
       }
       case 'SET_SONGS': {
+        // args is Map { "songs": List [ Map { "id": 1, "songTitle": "Ode to Joy (Dubstep Remix)", "notes": "E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4 D4 D4" } ] }
         const songs = args.get('songs');
         return state.set('songs', songs);
       }
