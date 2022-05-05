@@ -72,7 +72,7 @@ export function appReducer(state: AppState, action: DispatchAction): AppState {
       case 'SET_FILTERED_SONGS': {
         // alert("Inside SET_FILTERED_SONGS "+args)
         const songs = args.get('songs');
-        alert("State for SET_FILTERED_SONGS"+state)
+        // alert("State for SET_FILTERED_SONGS"+state)
         return state.set('filteredsongs', songs)
       }
       case 'DELETE_SOCKET': {

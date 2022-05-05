@@ -73,9 +73,9 @@ function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
   const [songName, setSongTitle] = useState('');
   let filteredSongs: List<any> 
   const handleSubmit = (e: React.ChangeEvent<any>) => {
-    // e.preventDefault();
+    e.preventDefault();
     const res = fetchData();
-    // alert("Data from server "+res)
+    alert("Data from server "+res)
   };
   async function fetchData() {
     // alert("Fetch")
