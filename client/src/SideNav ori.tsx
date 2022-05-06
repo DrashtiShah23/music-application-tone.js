@@ -8,6 +8,7 @@ import {
  RadioButtonChecked20,
  Music20,
 } from '@carbon/icons-react';
+import { initializeSocket, send } from './Socket';
 
 // project imports
 import { DispatchAction } from './Reducer';
@@ -62,11 +63,66 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
        <InstrumentsNav state={state} dispatch={dispatch} />
        <VisualizersNav state={state} dispatch={dispatch} />
        <SongsNav state={state} dispatch={dispatch} />
+       <JukeboxNav state={state} dispatch={dispatch} />
      </div>
    </div>
  );
 }
-
+function ResultData({ state, dispatch }: SideNavProps): JSX.Element {
+  const songs: List<any> = state.get('filteredsongs', List());
+  return (
+    <Section title="Playlist">
+      {songs.map(song => (
+        <div
+          key={song.get('id')}
+          className="f6 pointer underline flex items-center no-underline i dim"
+          onClick={() =>
+            dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
+          }
+        >
+          <Music20 className="mr1" />
+          {song.get('songTitle')}
+        </div>
+      ))}
+    </Section>
+  );
+ }
+function JukeboxNav({ state, dispatch }: SideNavProps): JSX.Element {
+  const [songName, setSongTitle] = useState('');
+  let filteredSongs: List<any> 
+  const handleSubmit = (e: React.ChangeEvent<any>) => {
+    // e.preventDefault();
+    const res = fetchData();
+    alert("Data from server "+res)
+  };
+  async function fetchData() {
+    // alert("Fetch")
+    initializeSocket(
+      async socket => {
+        dispatch(new DispatchAction('SET_SOCKET', { socket }));
+        filteredSongs = await send(socket, 'get_songs_by_name', {"song_title": songName});
+        dispatch(new DispatchAction('SET_FILTERED_SONGS', { filteredSongs }));
+        // alert("DONE" +filteredSongs)
+      },
+      () => {
+        dispatch(new DispatchAction('DELETE_SOCKET'));
+      },
+    );
+   return filteredSongs
+  }
+ return (
+   <Section title="Jukebox">
+    <div>
+    <form onSubmit={handleSubmit}>
+      <input type='text' id='songName' name='songName' placeholder="Enter song name..." autoComplete="off"
+               value={songName} onChange={(e) => setSongTitle(e.target.value)}
+      />
+    </form>
+    <ResultData state={state} dispatch={dispatch} />
+    </div>
+   </Section>
+ );
+}
  
 /** ------------------------------------------------------------------------ **
 * SideNav Sub-Components
@@ -139,9 +195,8 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
    </Section>
  );
 }
-
-let songId = 0; 
-function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
+ 
+function  SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
  /**
   *
   *  SongsNav
@@ -155,51 +210,56 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   *  |      ...        |
   *  |-----------------|
  */
-  const [searchTerm, setSearchTerm] = useState("");
-  const filterSongs = (songList: List<any>, searchTerm: String) => {    
+ const [searchTerm, setSearchTerm] = useState("");
+
+  const filterSongs = (songList: List<any>, searchTerm: String) => {
     if (!searchTerm) {
       return songList;
     }
 
+    // eslint-disable-next-line
     return songList.filter((song) => {
-      const songName = song.get("songTitle");
+      console.log(song);
+      const songName = song.get("title");
+      const album = song.get("album");
+      const artist = song.get("artist");
+
       if (songName !== undefined) {
         console.log("search term", searchTerm);
         console.log("song name", songName);
         console.log(songName.includes(searchTerm.toLowerCase()));
         return (
-          songName.toLowerCase().includes(searchTerm.toLowerCase())
+          songName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          album.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          artist.toLowerCase().includes(searchTerm.toLowerCase())
         );
       }
     });
   };
-
-  const songs: List<any> = state.get("songs", List());
-
-  return (
-    <Section title="Playlist">
-      <input
+ const songs: List<any> = state.get('songs', List());
+ return (
+   <Section title="Playlist">
+     <input
         type="text"
-        placeholder="Enter Song name... "
+        placeholder="Songs, album or artist"
         onChange={(event) => setSearchTerm(event.target.value)}
         value={searchTerm}
         style={{ width: "12rem" }}
       />
-      {filterSongs(songs, searchTerm).map((song) => (
-        <div
-          key={song.get("id")}
-          className="f6 pointer underline flex items-center no-underline i dim"
-          onClick={() => {
-            songId = song.get("id");
-            dispatch(new DispatchAction("PLAY_SONG", { id: song.get("id") }));
-          }}
-        >
-          <Music20 className="mr1" />
-          {song.get("songTitle")}
-        </div>
-      ))}
-    </Section>
-  );
+     {songs.map(song => (
+       <div
+         key={song.get('id')}
+         className="f6 pointer underline flex items-center no-underline i dim"
+         onClick={() =>
+           dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
+         }
+       >
+         <Music20 className="mr1" />
+         {song.get('songTitle')}
+       </div>
+     ))}
+   </Section>
+ );
 }
  
 
