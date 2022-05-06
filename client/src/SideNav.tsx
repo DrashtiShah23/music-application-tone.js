@@ -155,43 +155,39 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   *  |      ...        |
   *  |-----------------|
  */
-  const [searchTerm, setSearchTerm] = useState("");
-  const filterSongs = (songList: List<any>, searchTerm: String) => {    
-    if (!searchTerm) {
+  const [searchWord, setSearchWord] = useState("");
+  const filterSongs = (songList: List<any>, searchWord: String) => {    
+    if (!searchWord) {
       return songList;
     }
 
     return songList.filter((song) => {
       const songName = song.get("songTitle");
       if (songName !== undefined) {
-        console.log("search term", searchTerm);
-        console.log("song name", songName);
-        console.log(songName.includes(searchTerm.toLowerCase()));
         return (
-          songName.toLowerCase().includes(searchTerm.toLowerCase())
+          songName.toLowerCase().includes(searchWord.toLowerCase())
         );
       }
     });
   };
 
   const songs: List<any> = state.get("songs", List());
-
   return (
     <Section title="Playlist">
       <input
         type="text"
         placeholder="Enter Song name... "
-        onChange={(event) => setSearchTerm(event.target.value)}
-        value={searchTerm}
+        onChange={(event) => setSearchWord(event.target.value)}
+        value={searchWord}
         style={{ width: "12rem" }}
       />
-      {filterSongs(songs, searchTerm).map((song) => (
+      {filterSongs(songs, searchWord).map((song) => (
         <div
           key={song.get("id")}
           className="f6 pointer underline flex items-center no-underline i dim"
           onClick={() => {
             songId = song.get("id");
-            dispatch(new DispatchAction("PLAY_SONG", { id: song.get("id") }));
+            dispatch(new DispatchAction("PLAY_SONG", { id: songId }));
           }}
         >
           <Music20 className="mr1" />
@@ -202,8 +198,6 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   );
 }
  
-
-
  
 /** ------------------------------------------------------------------------ **
 * Auxilliary components
