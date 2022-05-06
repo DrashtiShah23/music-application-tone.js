@@ -2,7 +2,6 @@ import { Server, Socket } from 'socket.io';
 import http from 'http';
 import { MessageHandler } from './MessageHandler';
 import { GetSongsHandler } from './handlers/GetSongsHandler';
-
 const PORT = 3001;
 const VALID_ORIGINS = ['http://localhost:3000'];
 const PING_TIMEOUT_MS = 10000;
