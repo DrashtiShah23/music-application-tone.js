@@ -34,7 +34,6 @@ type DispatchActionType =
   | 'SET_SOCKET'
   | 'DELETE_SOCKET'
   | 'SET_SONGS'
-  | 'SET_FILTERED_SONGS'
   | 'PLAY_SONG'
   | 'STOP_SONG'
   | 'SET_LOCATION';
@@ -68,12 +67,6 @@ export function appReducer(state: AppState, action: DispatchAction): AppState {
         }
 
         return state.set('socket', args.get('socket'));
-      }
-      case 'SET_FILTERED_SONGS': {
-        // alert("Inside SET_FILTERED_SONGS "+args)
-        const songs = args.get('songs');
-        // alert("State for SET_FILTERED_SONGS"+state)
-        return state.set('filteredsongs', songs)
       }
       case 'DELETE_SOCKET': {
         return state.delete('socket');
