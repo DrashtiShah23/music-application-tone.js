@@ -79,7 +79,6 @@ export function appReducer(state: AppState, action: DispatchAction): AppState {
         return state.delete('socket');
       }
       case 'SET_SONGS': {
-        // args is Map { "songs": List [ Map { "id": 1, "songTitle": "Ode to Joy (Dubstep Remix)", "notes": "E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4 D4 D4" } ] }
         const songs = args.get('songs');
         return state.set('songs', songs);
       }
